@@ -61,6 +61,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           {/* Download Resume Button */}
           <a
+            download
             className="hidden sm:inline-flex items-center justify-center font-body-sm text-body-sm text-on-primary bg-primary hover:bg-primary-container px-5 py-2.5 rounded-full shadow-[0_2px_10px_-2px_rgba(168,39,99,0.3)] hover:shadow-[0_4px_16px_rgba(168,39,99,0.4)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 min-h-[44px]"
             href={siteConfig.resumeUrl}
             style={{
@@ -71,17 +72,17 @@ export function Navbar() {
             <span>Download Resume</span>
           </a>
 
-          {/* Mode Toggle / Profile Avatar Button */}
-          <button
-            type="button"
-            aria-label="User Profile and Mode Toggle"
+          {/* Profile Avatar Link */}
+          <a
+            href="#contact"
+            aria-label="Contact"
             className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95"
             style={{ backgroundColor: "rgb(224, 85, 143)" }}
           >
             <span className="material-symbols-outlined text-on-primary text-[18px]">
               person
             </span>
-          </button>
+          </a>
 
           {/* Mobile Hamburger Toggle */}
           <button
@@ -116,6 +117,7 @@ export function Navbar() {
           <div className="pt-3 border-t border-outline-variant/30 sm:hidden">
             <a
               href={siteConfig.resumeUrl}
+              download
               onClick={closeMobileMenu}
               className="w-full inline-flex items-center justify-center font-body-sm text-body-sm text-on-primary bg-primary hover:bg-primary-container px-5 py-3 rounded-full shadow-md transition-all active:translate-y-0 min-h-[44px]"
               style={{

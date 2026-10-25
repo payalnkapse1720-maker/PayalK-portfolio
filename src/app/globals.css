@@ -195,9 +195,32 @@
   font-weight: 500;
 }
 
-/* Base Body & Scrollbar settings */
+/* Base Body & Ambient Background Glow */
 body {
   background-color: #fcf8ff;
+  background-image:
+    radial-gradient(
+      circle 900px at 95% -10%,
+      rgba(254, 122, 176, 0.15) 0%,
+      rgba(254, 122, 176, 0.13) 15%,
+      rgba(254, 122, 176, 0.09) 35%,
+      rgba(254, 122, 176, 0.05) 55%,
+      rgba(254, 122, 176, 0.02) 75%,
+      rgba(254, 122, 176, 0.005) 90%,
+      transparent 100%
+    ),
+    radial-gradient(
+      circle 1000px at -10% 40%,
+      rgba(255, 217, 227, 0.30) 0%,
+      rgba(255, 217, 227, 0.24) 15%,
+      rgba(255, 217, 227, 0.16) 35%,
+      rgba(255, 217, 227, 0.09) 55%,
+      rgba(255, 217, 227, 0.03) 75%,
+      rgba(255, 217, 227, 0.008) 90%,
+      transparent 100%
+    );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: #1a1a26;
   font-family: var(--font-inter), sans-serif;
   min-height: 100vh;

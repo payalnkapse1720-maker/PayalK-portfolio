@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
   title: "Payal Kapse — Creative Technologist & Portfolio",
   description:
     "2nd-year Computer Science student exploring scalable code, synthetic AI video, and high-impact digital design.",
-  resumeUrl: "#",
+  resumeUrl: "/resume/Payal-Kapse-Resume.pdf",
   navLinks: [
     { label: "About", href: "#about" },
     { label: "Skills", href: "#skills" },

@@ -52,16 +52,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
       </head>
-      <body className="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed relative min-h-screen flex flex-col">
-        {/* Ambient Radial Glow Blooms from Stitch HTML */}
-        <div
-          className="fixed inset-0 pointer-events-none -z-10 overflow-hidden"
-          aria-hidden="true"
-        >
-          <div className="absolute -top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-secondary-container/15 blur-[120px]" />
-          <div className="absolute top-[40%] -left-[10%] w-[600px] h-[600px] rounded-full bg-primary-fixed/25 blur-[140px]" />
-        </div>
-
+      <body className="font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed relative min-h-screen flex flex-col">
         {children}
       </body>
     </html>

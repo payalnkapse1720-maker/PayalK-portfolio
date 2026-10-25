@@ -246,3 +246,22 @@ f:/portfolio/
    - Never alter previously built components or unrelated files unless specifically instructed.
 3. **Rule 3: Test & Validate.**
    - Verify TypeScript compilation, responsive wrapping, and interactive state behavior after each section is implemented.
+
+---
+
+## 10. LOCKED DECISIONS
+
+These rules override the Stitch HTML reference wherever they differ:
+
+1. **Page order:** Header, Hero, About, Skills, Projects, Creative Work, Experience, Contact, Footer. Every section has an id (`about`, `skills`, `projects`, `creative`, `experience`, `contact`) with `scroll-margin-top` of 96px, and header links scroll smoothly to them.
+2. **Hero:** The 3D card deck is about 40% larger than in the Stitch screenshot, fully visible and never cropped. No developer or annotation text may appear on the page (for example "hover to fan out into 3D plane", "translate 30px"). A single clean hint like "Click to fan out cards" is allowed.
+3. **Content:** Replace every invented name, company, city, statistic, percentage and email from Stitch with bracketed placeholders (for example `[Project Name]`, `[Company]`, `[Role]`, `[City]`, `[Result: e.g. 10K views]`, `[Year]`, `[your-email]`). Keep real facts only: Payal Kapse, 2nd-year Computer Science student, and the four skill areas.
+4. **Projects:** Filter tabs above the cards (`All`, `Web`, `AI Video`, `Design`). Active tab is a solid `#E0558F` pill with white text; inactive tabs are white pills with a `#F3D3DF` border and `#55556A` text.
+5. **Skills:** Maximum 4 tag chips per card. No percentage bars anywhere.
+6. **Resume:** All "Download Resume" buttons link to `/resume/Payal-Kapse-Resume.pdf` with the `download` attribute. Do not create a fake PDF.
+7. **Header:** The round profile icon links to `#contact`.
+8. **Text sizes:** Mono labels and chips at least 13px; muted text color `#55556A`.
+9. **Component architecture & placeholders:** Every section uses a content file in `/src/content` and a component in `/src/components`. Missing images use a pastel gradient placeholder, never broken image icons.
+10. **Scroll animations & accessibility:** Every section fades up once on scroll (600ms ease-out), disabled under `prefers-reduced-motion`.
+11. **Mobile rules:** Single column, tap targets of at least 44px, no horizontal scroll, carousels use scroll-snap.
+
