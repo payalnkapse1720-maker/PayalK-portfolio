@@ -2,7 +2,7 @@ import { siteConfig } from "@/content/siteConfig";
 
 export function Footer() {
   return (
-    <footer className="w-full bg-background border-t border-outline-variant/40 mt-space-xl">
+    <footer className="w-full bg-transparent border-t border-outline-variant/40 mt-space-xl">
       <div className="max-w-[1240px] mx-auto px-margin-mobile md:px-margin py-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md">
         <div className="text-center md:text-left">
           <p className="font-body-md text-body-md text-on-surface-variant">
