@@ -23,10 +23,10 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   name: "Payal Kapse",
-  role: "Creative Technologist",
-  title: "Payal Kapse — Creative Technologist & Portfolio",
+  role: "FULL-STACK DEVELOPER",
+  title: "Payal Kapse — Full-Stack Web Developer & Portfolio",
   description:
-    "2nd-year Computer Science student exploring scalable code, synthetic AI video, and high-impact digital design.",
+    "TYBSc Computer Science student and full-stack web developer who also designs, markets and creates AI video.",
   resumeUrl: "/resume/Payal-Kapse-Resume.pdf",
   navLinks: [
     { label: "About", href: "#about" },

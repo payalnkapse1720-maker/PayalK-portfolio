@@ -264,4 +264,13 @@ These rules override the Stitch HTML reference wherever they differ:
 9. **Component architecture & placeholders:** Every section uses a content file in `/src/content` and a component in `/src/components`. Missing images use a pastel gradient placeholder, never broken image icons.
 10. **Scroll animations & accessibility:** Every section fades up once on scroll (600ms ease-out), disabled under `prefers-reduced-motion`.
 11. **Mobile rules:** Single column, tap targets of at least 44px, no horizontal scroll, carousels use scroll-snap.
+12. **Positioning:** Web development is Payal's core strength. Digital marketing, AI video and graphic design (Canva) are supporting skills and must always appear secondary to web development in size, order and emphasis.
+13. **Education:** Payal is pursuing TYBSc (Third Year B.Sc.) in Computer Science. Use "TYBSc Computer Science" everywhere. Replace any "2nd-year" or "B.Tech" wording from Stitch. College and university names are bracketed placeholders: [College Name], [University].
+14. **Hero headline:** "Full-stack web developer who also designs, markets and creates AI video." The italic accent word color #E0558F applies to "web developer", not to "AI video". Hero badge text: "TYBSc COMPUTER SCIENCE".
+15. **Hero deck:** Exactly 3 cards: Frontend (left), Full-Stack Web Development (center, larger, highlighted, "CORE FOCUS" badge), Backend (right). The deck is always fanned. There is no stack or restack toggle and no "click to fan out" hint. Hover lifts a card; nothing is click-dependent.
+16. **Secondary skills banner:** Under the deck, show a row of 3 small pills: "Digital Marketing", "AI Video", "Graphic Design (Canva)", with a mono label "ALSO SKILLED IN".
+17. **Header badge:** Header badge next to the name reads "FULL-STACK DEVELOPER" instead of "CREATIVE TECHNOLOGIST".
+18. **Skills section:** Development is the featured card (larger or first, with a "CORE" badge); Digital Marketing, AI Video and Graphic Design are visually secondary.
+19. **Experience section:** The education entry reads "TYBSc Computer Science, [College Name], [University], [Year range]".
+20. **Page metadata description:** "TYBSc Computer Science student and full-stack web developer who also designs, markets and creates AI video."
 

@@ -25,9 +25,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Payal Kapse — Creative Technologist & Portfolio",
+  title: "Payal Kapse — Full-Stack Web Developer & Portfolio",
   description:
-    "2nd-year Computer Science student exploring scalable code, synthetic AI video, and high-impact digital design.",
+    "TYBSc Computer Science student and full-stack web developer who also designs, markets and creates AI video.",
 };
 
 export default function RootLayout({
