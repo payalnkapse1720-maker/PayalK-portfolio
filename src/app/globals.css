@@ -19,6 +19,11 @@
   --chip-text: #F2A3B5;
   --border: #3D2630;
 
+  /* Glassmorphism Tokens */
+  --glass-bg: rgba(255, 235, 240, 0.06);
+  --glass-bg-strong: rgba(255, 235, 240, 0.10);
+  --glass-border: rgba(255, 255, 255, 0.14);
+
   /* Shadows */
   --shadow-dark: 0 16px 40px -8px rgba(0, 0, 0, 0.5);
   --shadow-center-card: 0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 40px rgba(240, 138, 163, 0.18);
@@ -77,6 +82,11 @@
   --color-text-muted: #C9AEB5;
   --color-chip-text: #F2A3B5;
   --color-border: #3D2630;
+
+  /* Glass Tokens */
+  --color-glass-bg: rgba(255, 235, 240, 0.06);
+  --color-glass-bg-strong: rgba(255, 235, 240, 0.10);
+  --color-glass-border: rgba(255, 255, 255, 0.14);
 
   /* Spec Design Tokens mapped to Wine Night */
   --color-action-accent: #C23A5C;
@@ -214,37 +224,121 @@
   font-weight: 500;
 }
 
-/* Base Body & Ambient Background Glow */
+/* Base Body: Clean background color; Orbs layer provides dynamic glow */
 body {
-  background-color: #1A0D12;
-  background-image:
-    radial-gradient(
-      circle 1050px at 95% -10%,
-      rgba(224, 112, 138, 0.18) 0%,
-      rgba(224, 112, 138, 0.15) 20%,
-      rgba(224, 112, 138, 0.11) 40%,
-      rgba(224, 112, 138, 0.06) 60%,
-      rgba(224, 112, 138, 0.025) 80%,
-      rgba(224, 112, 138, 0.005) 92%,
-      transparent 100%
-    ),
-    radial-gradient(
-      circle 950px at -10% 40%,
-      rgba(90, 26, 48, 0.35) 0%,
-      rgba(90, 26, 48, 0.28) 20%,
-      rgba(90, 26, 48, 0.20) 40%,
-      rgba(90, 26, 48, 0.11) 60%,
-      rgba(90, 26, 48, 0.04) 80%,
-      rgba(90, 26, 48, 0.008) 92%,
-      transparent 100%
-    );
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  color: #F7ECEE;
+  background-color: var(--page-bg);
+  color: var(--text-primary);
   font-family: var(--font-inter), sans-serif;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+}
+
+/* Reusable Glass Utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 16px 40px -8px rgba(0, 0, 0, 0.5);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 16px 40px -8px rgba(0, 0, 0, 0.5);
+}
+
+/* Fallback for browsers that do not support backdrop-filter */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass,
+  .glass-strong {
+    background: rgba(38, 20, 27, 0.92);
+  }
+}
+
+/* Below 768px: reduce blur to 12px for smooth performance */
+@media (max-width: 767px) {
+  .glass,
+  .glass-strong {
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+  }
+}
+
+/* Accessibility: Under prefers-reduced-transparency, use solid surfaces */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-strong {
+    background: #26141B !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid var(--border) !important;
+  }
+}
+
+/* Backdrop Orbs Slow Floating Drift Animation (Transform Only, 30s-40s) */
+@keyframes orb-drift-1 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(60px, 45px) scale(1.08);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes orb-drift-2 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(-50px, 60px) scale(0.94);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes orb-drift-3 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(40px, -50px) scale(1.06);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.orb-wine {
+  animation: orb-drift-1 36s ease-in-out infinite;
+  will-change: transform;
+}
+
+.orb-rose {
+  animation: orb-drift-2 32s ease-in-out infinite;
+  will-change: transform;
+}
+
+.orb-magenta {
+  animation: orb-drift-3 40s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Disable drift under prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .orb-wine,
+  .orb-rose,
+  .orb-magenta {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 /* Selection Color (rgba(240,138,163,0.35)) */
@@ -282,11 +376,11 @@ body {
   scrollbar-width: thin;
 }
 
-/* Form Inputs, Placeholders & Focus Rings */
+/* Form Inputs, Placeholders & Focus Rings: rgba(255,255,255,0.05) with 1px glass border */
 input, textarea, select {
-  background-color: #26141B;
+  background-color: rgba(255, 255, 255, 0.05);
   color: #F7ECEE;
-  border: 1px solid #3D2630;
+  border: 1px solid var(--glass-border);
   outline: none;
 }
 
@@ -322,19 +416,19 @@ select:focus-visible {
 
 .modal-card,
 .dialog-card {
-  background-color: #26141B;
-  border: 1px solid #3D2630;
-  box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.7);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 24px 64px -12px rgba(0, 0, 0, 0.7);
   color: #F7ECEE;
 }
 
-/* Glass Card helper */
-.card-glass {
-  background: rgba(38, 20, 27, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid #3D2630;
-  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.5);
+@supports not (backdrop-filter: blur(1px)) {
+  .modal-card,
+  .dialog-card {
+    background: rgba(38, 20, 27, 0.92);
+  }
 }
 
 /* Image Frames & Fallback styling */

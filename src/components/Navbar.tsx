@@ -16,9 +16,11 @@ export function Navbar() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 w-full z-50 backdrop-blur-md transition-all duration-300"
+      className="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300"
       style={{
-        backgroundColor: "var(--card-glass)",
+        backgroundColor: "rgba(26, 13, 18, 0.55)",
+        backdropFilter: "blur(14px)",
+        WebkitBackdropFilter: "blur(14px)",
         borderBottom: "1px solid var(--border)",
       }}
     >
@@ -123,9 +125,11 @@ export function Navbar() {
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
         <div
-          className="lg:hidden w-full backdrop-blur-xl px-6 py-6 flex flex-col gap-3 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          className="lg:hidden w-full px-6 py-6 flex flex-col gap-3 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           style={{
-            backgroundColor: "rgba(38, 20, 27, 0.95)",
+            backgroundColor: "rgba(26, 13, 18, 0.85)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
             borderBottom: "1px solid var(--border)",
           }}
         >

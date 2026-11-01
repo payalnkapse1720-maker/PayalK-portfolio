@@ -23,14 +23,7 @@ export function AboutSection() {
       >
         {/* Glass Card Container */}
         <div
-          className="rounded-3xl p-8 md:p-12 lg:p-16 relative overflow-hidden"
-          style={{
-            background: "rgba(38, 20, 27, 0.72)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            border: "1px solid var(--border)",
-            boxShadow: "0 16px 40px -8px rgba(0, 0, 0, 0.5)",
-          }}
+          className="rounded-3xl p-8 md:p-12 lg:p-16 relative overflow-hidden glass"
         >
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-14 items-center">
             {/* Left Column: Circular Photo with Accent Ring */}
@@ -119,14 +112,12 @@ export function AboutSection() {
               </div>
 
               {/* Stat Chips */}
-              <div className="flex flex-wrap gap-2.5 pt-4" style={{ borderTop: "1px dashed var(--border)" }}>
+              <div className="flex flex-wrap gap-2.5 pt-4" style={{ borderTop: "1px dashed var(--glass-border)" }}>
                 {aboutContent.statChips.map((chip, idx) => (
                   <span
                     key={idx}
-                    className="inline-flex items-center px-3.5 py-1.5 rounded-full font-label-sm text-[13px] font-medium transition-all"
+                    className="inline-flex items-center px-3.5 py-1.5 rounded-full font-label-sm text-[13px] font-medium transition-all glass"
                     style={{
-                      backgroundColor: "var(--tint)",
-                      border: "1px solid var(--border)",
                       color: "var(--chip-text)",
                     }}
                   >

@@ -81,7 +81,7 @@ export const heroContent: HeroContent = {
       title: "Frontend",
       description: "Interactive, fluid responsive interfaces with polished micro-interactions and state flow.",
       icon: "code",
-      chips: ["[Stack 1]", "[Stack 2]", "[Stack 3]", "[Stack 4]"],
+      chips: ["HTML", "CSS", "JavaScript", "Next.js"],
     },
     {
       id: "fullstack",
@@ -91,7 +91,7 @@ export const heroContent: HeroContent = {
       description: "Frontend to backend: I design, build and ship complete web apps.",
       icon: "layers",
       isHighlight: true,
-      chips: ["[Stack 1]", "[Stack 2]", "[Stack 3]", "[Stack 4]"],
+      chips: ["HTML", "CSS", "JavaScript", "Next.js"],
     },
     {
       id: "backend",
@@ -100,7 +100,7 @@ export const heroContent: HeroContent = {
       title: "Backend",
       description: "Reliable APIs, asynchronous server workflows, structured schemas and data pipelines.",
       icon: "database",
-      chips: ["[Stack 1]", "[Stack 2]", "[Stack 3]", "[Stack 4]"],
+      chips: ["MySQL"],
     },
   ],
 };

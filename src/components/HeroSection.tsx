@@ -8,28 +8,33 @@ export function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
   const [hoveredCardIdx, setHoveredCardIdx] = useState<number | null>(null);
   const [focusedCardIdx, setFocusedCardIdx] = useState<number | null>(null);
-  const [containerWidth, setContainerWidth] = useState<number>(1200);
+  const [windowWidth, setWindowWidth] = useState<number>(1200);
 
   useEffect(() => {
     const handleResize = () => {
-      const w = window.innerWidth;
-      // Account for at least 24px margin on both sides (min 48px margins)
-      const available = Math.min(w - 48, 1240);
-      setContainerWidth(available);
+      setWindowWidth(window.innerWidth);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Center card is ~460px on desktop (>=1200px), side cards ~380px
-  // Adaptively scaled down slightly if containerWidth is tight on 1024px
-  const centerCardWidth = containerWidth >= 1200 ? 460 : Math.round(containerWidth * 0.38);
-  const sideCardWidth = containerWidth >= 1200 ? 380 : Math.round(containerWidth * 0.32);
+  // Responsive desktop card width & spread calculation
+  // Card base width: ~340px at 1024px to ~370px at >=1440px
+  const isLargeScreen = windowWidth >= 1440;
+  const isMidScreen = windowWidth >= 1200;
+  const cardWidth = isLargeScreen ? 370 : isMidScreen ? 355 : 340;
 
-  // Deck spread: Card 0 (Frontend, left), Card 1 (Full-Stack, center), Card 2 (Backend, right)
-  // Ensure left card outer edge and right card outer edge stay >= 24px from viewport edge
-  const maxSpreadX = Math.max(160, Math.min(340, (containerWidth - sideCardWidth) / 2 - 24));
+  // Maximum spread keeping >= 24px margins on both sides
+  // Available width between 24px margins = windowWidth - 48
+  // Max half-span from center = (available - cardWidth) / 2
+  // We want side cards at least 80% visible, so center overlap <= 20% of cardWidth
+  // Desired spread = cardWidth * 0.88 to 0.92
+  const maxPossibleSpread = Math.max(260, (windowWidth - 48 - cardWidth) / 2);
+  const spreadX = Math.min(
+    Math.round(cardWidth * 0.90),
+    maxPossibleSpread
+  );
 
   const getCardTransform = (idx: number) => {
     const isCenter = idx === 1;
@@ -37,11 +42,10 @@ export function HeroSection() {
 
     // Relative offset: idx 0 -> -1 (left), idx 1 -> 0 (center), idx 2 -> +1 (right)
     const offsetDir = idx === 0 ? -1 : idx === 2 ? 1 : 0;
-    const baseX = offsetDir * maxSpreadX;
-    const baseRotY = offsetDir * 8; // ~8 degrees rotated toward center
-    const baseRotZ = offsetDir * 3.5; // slight fan tilt
-    const baseY = isCenter ? 0 : 12; // slight vertical arc
-    const baseZ = isCenter ? 40 : 10; // center card stepped in front
+    const baseX = offsetDir * spreadX;
+    const baseRotY = offsetDir * 4; // reduced side-card rotateY to ~4 degrees
+    const baseY = 0; // consistent vertical baseline
+    const baseScale = isCenter ? 1.05 : 1.0;
     const baseZIndex = isCenter ? 30 : 20;
 
     if (shouldReduceMotion) {
@@ -49,25 +53,21 @@ export function HeroSection() {
         x: baseX,
         y: isElevated ? -8 : baseY,
         rotateY: 0,
-        rotateZ: 0,
-        z: 0,
-        scale: isElevated ? 1.02 : 1,
+        scale: isElevated ? baseScale * 1.02 : baseScale,
         zIndex: isElevated ? 50 : baseZIndex,
       };
     }
 
     return {
       x: baseX,
-      y: isElevated ? baseY - 16 : baseY,
+      y: isElevated ? baseY - 12 : baseY,
       rotateY: isElevated ? 0 : baseRotY,
-      rotateZ: isElevated ? 0 : baseRotZ,
-      z: isElevated ? baseZ + 40 : baseZ,
-      scale: isElevated ? 1.04 : 1,
+      scale: isElevated ? baseScale * 1.03 : baseScale,
       zIndex: isElevated ? 50 : baseZIndex,
     };
   };
 
-  // Re-order for mobile carousel: Full-Stack (index 1) first, then Frontend (0), Backend (2)
+  // Mobile carousel order: Full-Stack (index 1) first, then Frontend (0), Backend (2)
   const mobileCards = [
     heroContent.cards[1],
     heroContent.cards[0],
@@ -85,15 +85,13 @@ export function HeroSection() {
         {/* Top Meta Badge */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <span
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full font-label-sm text-[13px] uppercase tracking-wider shadow-xs"
+            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full font-label-sm text-[13px] uppercase tracking-wider shadow-xs glass"
             style={{
-              backgroundColor: "var(--tint)",
-              border: "1px solid var(--border)",
               color: "var(--chip-text)",
             }}
           >
             <span
-              className="w-2 h-2 rounded-full animate-pulse"
+              className="w-2 h-2 rounded-full"
               style={{ backgroundColor: "var(--accent)" }}
             />
             {heroContent.badge}
@@ -137,15 +135,13 @@ export function HeroSection() {
             <a
               href={heroContent.ctaSecondary.href}
               download={heroContent.ctaSecondary.downloadFilename}
-              className="inline-flex items-center justify-center px-7 py-3 rounded-full font-body-md font-medium transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 min-h-[44px]"
+              className="inline-flex items-center justify-center px-7 py-3 rounded-full font-body-md font-medium transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] glass"
               style={{
-                backgroundColor: "var(--card-surface)",
                 color: "var(--accent)",
-                border: "1px solid var(--accent)",
-                boxShadow: "0 16px 40px -8px rgba(0, 0, 0, 0.5)",
+                borderColor: "var(--accent)",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--tint)")}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--card-surface)")}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--glass-bg-strong)")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--glass-bg)")}
             >
               <span className="material-symbols-outlined text-[18px] mr-1.5" style={{ color: "var(--accent)" }}>
                 download
@@ -155,15 +151,15 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* 3D Always-Fanned Frosted Glass Deck Showcase Canvas (Desktop >= 1024px) */}
+        {/* 3D Always-Fanned Glass Deck Showcase Canvas (Desktop >= 1024px) */}
+        {/* Notice: Perspective is on parent only. No transform-style: preserve-3d, ensuring backdrop-filter functions cleanly */}
         <div className="relative mt-4 lg:mt-8 w-full flex flex-col items-center overflow-visible">
           <div
-            className="hidden lg:flex relative w-full h-[580px] lg:h-[620px] py-6 px-6 items-center justify-center overflow-visible"
-            style={{ perspective: "1500px", transformStyle: "preserve-3d" }}
+            className="hidden lg:flex relative w-full h-[470px] py-6 px-6 items-center justify-center overflow-visible"
+            style={{ perspective: "1200px" }}
           >
             {heroContent.cards.map((card: HeroCardData) => {
               const isCenter = card.isHighlight;
-              const cardWidth = isCenter ? centerCardWidth : sideCardWidth;
               const transform = getCardTransform(card.index);
               const isElevated = hoveredCardIdx === card.index || focusedCardIdx === card.index;
 
@@ -179,8 +175,6 @@ export function HeroSection() {
                     x: transform.x,
                     y: transform.y,
                     rotateY: transform.rotateY,
-                    rotateZ: transform.rotateZ,
-                    z: transform.z,
                     scale: transform.scale,
                   }}
                   transition={{
@@ -191,51 +185,33 @@ export function HeroSection() {
                   className="absolute rounded-3xl p-7 lg:p-8 cursor-pointer select-none outline-none flex flex-col justify-between"
                   style={{
                     width: `${cardWidth}px`,
-                    minHeight: isCenter ? "450px" : "410px",
-                    transformStyle: "preserve-3d",
+                    height: "390px",
                     zIndex: transform.zIndex,
-                    background: "rgba(38, 20, 27, 0.72)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
+                    backgroundColor: isCenter ? "rgba(58, 26, 38, 0.82)" : "rgba(38, 20, 27, 0.78)",
+                    backdropFilter: "blur(20px) saturate(150%)",
+                    WebkitBackdropFilter: "blur(20px) saturate(150%)",
                     border: isElevated
                       ? "2px solid var(--accent)"
                       : isCenter
-                      ? "1.5px solid var(--accent)"
-                      : "1px solid var(--border)",
+                      ? "1.5px solid #F08AA3"
+                      : "1px solid var(--glass-border)",
                     boxShadow: isElevated
-                      ? "0 24px 50px -8px rgba(0, 0, 0, 0.6), 0 0 28px rgba(240, 138, 163, 0.25)"
+                      ? "inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 24px 50px -8px rgba(0, 0, 0, 0.6), 0 0 28px rgba(240, 138, 163, 0.25)"
                       : isCenter
-                      ? "0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 40px rgba(240, 138, 163, 0.18)"
-                      : "0 16px 40px -8px rgba(0, 0, 0, 0.5)",
+                      ? "inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 40px rgba(240, 138, 163, 0.18)"
+                      : "inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 16px 40px -8px rgba(0, 0, 0, 0.5)",
                   }}
                 >
-                  {/* Subtle Idle Float animation applied inside to isolate transforms */}
-                  <motion.div
-                    animate={
-                      shouldReduceMotion
-                        ? { y: 0 }
-                        : {
-                            y: [0, -3.5, 0],
-                            transition: {
-                              duration: 4.5,
-                              repeat: Infinity,
-                              repeatType: "mirror",
-                              ease: "easeInOut",
-                              delay: card.index * 0.7,
-                            },
-                          }
-                    }
-                    className="flex flex-col justify-between h-full w-full"
-                  >
+                  <div className="flex flex-col justify-between h-full w-full">
                     <div>
                       {/* Card Header: Icon & Badge */}
-                      <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center justify-between mb-5">
                         <span
                           className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-xs"
                           style={{
-                            backgroundColor: isCenter ? "var(--button)" : "var(--tint)",
+                            backgroundColor: isCenter ? "var(--button)" : "var(--glass-bg-strong)",
                             color: isCenter ? "var(--button-text)" : "var(--accent)",
-                            border: isCenter ? "none" : "1px solid var(--border)",
+                            border: isCenter ? "none" : "1px solid var(--glass-border)",
                           }}
                         >
                           <span className="material-symbols-outlined text-[28px]">
@@ -244,10 +220,10 @@ export function HeroSection() {
                         </span>
 
                         <span
-                          className="font-label-sm text-[13px] uppercase tracking-wider px-3 py-1 rounded-full font-medium"
+                          className="font-label-sm text-[12px] uppercase tracking-wider px-3 py-1 rounded-full font-medium"
                           style={{
-                            backgroundColor: "var(--tint)",
-                            border: isCenter ? "1px solid var(--accent)" : "1px solid var(--border)",
+                            backgroundColor: "var(--glass-bg)",
+                            border: isCenter ? "1px solid var(--accent)" : "1px solid var(--glass-border)",
                             color: "var(--chip-text)",
                           }}
                         >
@@ -257,15 +233,13 @@ export function HeroSection() {
 
                       {/* Card Title & Description */}
                       <h3
-                        className={`font-headline-sm font-semibold mb-3 ${
-                          isCenter ? "text-[26px] lg:text-[28px]" : "text-[24px] lg:text-[25px]"
-                        }`}
+                        className="font-headline-sm font-semibold mb-2.5 text-[24px] lg:text-[25px]"
                         style={{ color: "var(--text-primary)" }}
                       >
                         {card.title}
                       </h3>
                       <p
-                        className="font-body-sm text-[15px] leading-relaxed mb-6"
+                        className="font-body-sm text-[14px] leading-relaxed mb-4"
                         style={{ color: "var(--text-muted)" }}
                       >
                         {card.description}
@@ -275,15 +249,15 @@ export function HeroSection() {
                     {/* Card Tech Chips */}
                     <div
                       className="pt-4 flex flex-wrap gap-2 items-center"
-                      style={{ borderTop: "1px dashed var(--border)" }}
+                      style={{ borderTop: "1px dashed var(--glass-border)" }}
                     >
                       {card.chips.map((chip, chipIdx) => (
                         <span
                           key={chipIdx}
-                          className="px-2.5 py-1 rounded-md font-label-sm text-[13px] font-medium"
+                          className="px-2.5 py-1 rounded-md font-label-sm text-[12px] font-medium"
                           style={{
-                            backgroundColor: "var(--tint)",
-                            border: "1px solid var(--border)",
+                            backgroundColor: "var(--glass-bg)",
+                            border: "1px solid var(--glass-border)",
                             color: "var(--chip-text)",
                           }}
                         >
@@ -291,7 +265,7 @@ export function HeroSection() {
                         </span>
                       ))}
                     </div>
-                  </motion.div>
+                  </div>
                 </motion.div>
               );
             })}
@@ -305,17 +279,17 @@ export function HeroSection() {
               return (
                 <div
                   key={card.id}
-                  className="w-[85vw] max-w-[360px] shrink-0 snap-center rounded-3xl p-6 flex flex-col justify-between"
+                  className="w-[85vw] max-w-[360px] h-[390px] shrink-0 snap-center rounded-3xl p-6 flex flex-col justify-between"
                   style={{
-                    background: "rgba(38, 20, 27, 0.72)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
+                    backgroundColor: isCenter ? "rgba(58, 26, 38, 0.82)" : "rgba(38, 20, 27, 0.78)",
+                    backdropFilter: "blur(20px) saturate(150%)",
+                    WebkitBackdropFilter: "blur(20px) saturate(150%)",
                     border: isCenter
-                      ? "1.5px solid var(--accent)"
-                      : "1px solid var(--border)",
+                      ? "1.5px solid #F08AA3"
+                      : "1px solid var(--glass-border)",
                     boxShadow: isCenter
-                      ? "0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 40px rgba(240, 138, 163, 0.18)"
-                      : "0 16px 40px -8px rgba(0, 0, 0, 0.5)",
+                      ? "inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 40px rgba(240, 138, 163, 0.18)"
+                      : "inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 16px 40px -8px rgba(0, 0, 0, 0.5)",
                   }}
                 >
                   <div>
@@ -323,9 +297,9 @@ export function HeroSection() {
                       <span
                         className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
                         style={{
-                          backgroundColor: isCenter ? "var(--button)" : "var(--tint)",
+                          backgroundColor: isCenter ? "var(--button)" : "var(--glass-bg-strong)",
                           color: isCenter ? "var(--button-text)" : "var(--accent)",
-                          border: isCenter ? "none" : "1px solid var(--border)",
+                          border: isCenter ? "none" : "1px solid var(--glass-border)",
                         }}
                       >
                         <span className="material-symbols-outlined text-[24px]">
@@ -336,8 +310,8 @@ export function HeroSection() {
                       <span
                         className="font-label-sm text-[12px] uppercase tracking-wider px-2.5 py-0.5 rounded-full font-semibold"
                         style={{
-                          backgroundColor: "var(--tint)",
-                          border: isCenter ? "1px solid var(--accent)" : "1px solid var(--border)",
+                          backgroundColor: "var(--glass-bg)",
+                          border: isCenter ? "1px solid var(--accent)" : "1px solid var(--glass-border)",
                           color: "var(--chip-text)",
                         }}
                       >
@@ -352,7 +326,7 @@ export function HeroSection() {
                       {card.title}
                     </h3>
                     <p
-                      className="font-body-sm text-[14px] leading-relaxed mb-5"
+                      className="font-body-sm text-[14px] leading-relaxed mb-4"
                       style={{ color: "var(--text-muted)" }}
                     >
                       {card.description}
@@ -361,15 +335,15 @@ export function HeroSection() {
 
                   <div
                     className="pt-3 flex flex-wrap gap-2 items-center"
-                    style={{ borderTop: "1px dashed var(--border)" }}
+                    style={{ borderTop: "1px dashed var(--glass-border)" }}
                   >
                     {card.chips.map((chip, chipIdx) => (
                       <span
                         key={chipIdx}
                         className="px-2 py-0.5 rounded-md font-label-sm text-[12px] font-medium"
                         style={{
-                          backgroundColor: "var(--tint)",
-                          border: "1px solid var(--border)",
+                          backgroundColor: "var(--glass-bg)",
+                          border: "1px solid var(--glass-border)",
                           color: "var(--chip-text)",
                         }}
                       >
@@ -394,13 +368,7 @@ export function HeroSection() {
               {heroContent.secondarySkills.map((skill) => (
                 <div
                   key={skill.id}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full shadow-xs"
-                  style={{
-                    backgroundColor: "var(--card-glass)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                    border: "1px solid var(--border)",
-                  }}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full shadow-xs glass"
                 >
                   <span
                     className="material-symbols-outlined text-[16px]"
