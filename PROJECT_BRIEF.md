@@ -273,4 +273,6 @@ These rules override the Stitch HTML reference wherever they differ:
 18. **Skills section:** Development is the featured card (larger or first, with a "CORE" badge); Digital Marketing, AI Video and Graphic Design are visually secondary.
 19. **Experience section:** The education entry reads "TYBSc Computer Science, [College Name], [University], [Year range]".
 20. **Page metadata description:** "TYBSc Computer Science student and full-stack web developer who also designs, markets and creates AI video."
+21. **Theme:** single dark wine night theme using the tokens above. They replace every color in DESIGN_SPEC.md and earlier rules; layout, spacing and typography still follow the Stitch design. Old pink hex values in any prompt map to the closest token: #E0558F is button, #F472A8 is accent, #FCE4EC is tint, #F3D3DF is border, #1C1C28 is text, #55556A is muted text, white surfaces are card surface. Never hard-code colors.
+
 

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Newsreader, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -24,10 +24,18 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#1A0D12",
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
   title: "Payal Kapse — Full-Stack Web Developer & Portfolio",
   description:
     "TYBSc Computer Science student and full-stack web developer who also designs, markets and creates AI video.",
+  other: {
+    "theme-color": "#1A0D12",
+  },
 };
 
 export default function RootLayout({
@@ -39,8 +47,10 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${newsreader.variable} ${jetbrainsMono.variable} scroll-smooth`}
+      style={{ colorScheme: "dark" }}
     >
       <head>
+        <meta name="theme-color" content="#1A0D12" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -52,7 +62,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
       </head>
-      <body className="font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed relative min-h-screen flex flex-col">
+      <body className="font-body-md text-text-primary antialiased selection:bg-[rgba(240,138,163,0.35)] selection:text-text-primary relative min-h-screen flex flex-col">
         {children}
       </body>
     </html>

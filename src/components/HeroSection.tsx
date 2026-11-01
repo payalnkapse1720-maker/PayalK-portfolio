@@ -85,27 +85,37 @@ export function HeroSection() {
         {/* Top Meta Badge */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <span
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full font-label-sm text-[13px] uppercase tracking-wider text-action-accent shadow-xs"
+            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full font-label-sm text-[13px] uppercase tracking-wider shadow-xs"
             style={{
-              backgroundColor: "rgb(252, 228, 236)",
-              border: "1px solid rgb(243, 211, 223)",
+              backgroundColor: "var(--tint)",
+              border: "1px solid var(--border)",
+              color: "var(--chip-text)",
             }}
           >
-            <span className="w-2 h-2 rounded-full bg-action-accent animate-pulse" />
+            <span
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ backgroundColor: "var(--accent)" }}
+            />
             {heroContent.badge}
           </span>
         </div>
 
         {/* Hero Headline & Subtext */}
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-headline-lg text-[42px] md:text-[62px] lg:text-[72px] leading-[1.08] tracking-[-0.02em] font-semibold text-[#1C1C28] mb-6">
+          <h1
+            className="font-headline-lg text-[42px] md:text-[62px] lg:text-[72px] leading-[1.08] tracking-[-0.02em] font-semibold mb-6"
+            style={{ color: "var(--text-primary)" }}
+          >
             {heroContent.headline.start}
-            <span className="italic font-normal text-[#E0558F]">
+            <span className="italic font-normal" style={{ color: "var(--accent)" }}>
               {heroContent.headline.accent}
             </span>
             {heroContent.headline.end}
           </h1>
-          <p className="font-body-lg text-[16px] md:text-[18px] leading-[1.6] text-[#55556A] max-w-2xl mx-auto mb-10">
+          <p
+            className="font-body-lg text-[16px] md:text-[18px] leading-[1.6] max-w-2xl mx-auto mb-10"
+            style={{ color: "var(--text-muted)" }}
+          >
             {heroContent.subtext}
           </p>
 
@@ -113,11 +123,14 @@ export function HeroSection() {
           <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
             <a
               href={heroContent.ctaPrimary.href}
-              className="inline-flex items-center justify-center px-7 py-3 rounded-full font-body-md font-medium text-white shadow-md transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 min-h-[44px]"
+              className="inline-flex items-center justify-center px-7 py-3 rounded-full font-body-md font-medium transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 min-h-[44px]"
               style={{
-                backgroundColor: "rgb(224, 85, 143)",
-                boxShadow: "rgba(224, 85, 143, 0.35) 0px 8px 24px -4px",
+                backgroundColor: "var(--button)",
+                color: "var(--button-text)",
+                boxShadow: "0 16px 40px -8px rgba(0, 0, 0, 0.5)",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--button-hover)")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--button)")}
             >
               {heroContent.ctaPrimary.text}
             </a>
@@ -126,13 +139,15 @@ export function HeroSection() {
               download={heroContent.ctaSecondary.downloadFilename}
               className="inline-flex items-center justify-center px-7 py-3 rounded-full font-body-md font-medium transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 min-h-[44px]"
               style={{
-                backgroundColor: "rgb(255, 255, 255)",
-                color: "rgb(224, 85, 143)",
-                border: "1px solid rgb(224, 85, 143)",
-                boxShadow: "rgba(244, 114, 168, 0.1) 0px 4px 16px",
+                backgroundColor: "var(--card-surface)",
+                color: "var(--accent)",
+                border: "1px solid var(--accent)",
+                boxShadow: "0 16px 40px -8px rgba(0, 0, 0, 0.5)",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--tint)")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--card-surface)")}
             >
-              <span className="material-symbols-outlined text-[18px] mr-1.5">
+              <span className="material-symbols-outlined text-[18px] mr-1.5" style={{ color: "var(--accent)" }}>
                 download
               </span>
               {heroContent.ctaSecondary.text}
@@ -179,21 +194,19 @@ export function HeroSection() {
                     minHeight: isCenter ? "450px" : "410px",
                     transformStyle: "preserve-3d",
                     zIndex: transform.zIndex,
-                    background: isCenter
-                      ? "rgba(255, 255, 255, 0.94)"
-                      : "rgba(255, 255, 255, 0.82)",
-                    backdropFilter: isCenter ? "blur(20px)" : "blur(16px)",
-                    WebkitBackdropFilter: isCenter ? "blur(20px)" : "blur(16px)",
+                    background: "rgba(38, 20, 27, 0.72)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
                     border: isElevated
-                      ? "2px solid #E0558F"
+                      ? "2px solid var(--accent)"
                       : isCenter
-                      ? "1.5px solid #F472A8"
-                      : "1px solid #F3D3DF",
+                      ? "1.5px solid var(--accent)"
+                      : "1px solid var(--border)",
                     boxShadow: isElevated
-                      ? "0 28px 60px -8px rgba(224, 85, 143, 0.38), 0 0 0 1px #E0558F"
+                      ? "0 24px 50px -8px rgba(0, 0, 0, 0.6), 0 0 28px rgba(240, 138, 163, 0.25)"
                       : isCenter
-                      ? "0 24px 54px -6px rgba(224, 85, 143, 0.28)"
-                      : "0 16px 40px -8px rgba(244, 114, 168, 0.16)",
+                      ? "0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 40px rgba(240, 138, 163, 0.18)"
+                      : "0 16px 40px -8px rgba(0, 0, 0, 0.5)",
                   }}
                 >
                   {/* Subtle Idle Float animation applied inside to isolate transforms */}
@@ -218,15 +231,11 @@ export function HeroSection() {
                       {/* Card Header: Icon & Badge */}
                       <div className="flex items-center justify-between mb-6">
                         <span
-                          className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-xs ${
-                            isCenter
-                              ? "bg-action-accent text-white"
-                              : "bg-blush-tint text-action-accent"
-                          }`}
+                          className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-xs"
                           style={{
-                            backgroundColor: isCenter
-                              ? "rgb(224, 85, 143)"
-                              : "rgb(252, 228, 236)",
+                            backgroundColor: isCenter ? "var(--button)" : "var(--tint)",
+                            color: isCenter ? "var(--button-text)" : "var(--accent)",
+                            border: isCenter ? "none" : "1px solid var(--border)",
                           }}
                         >
                           <span className="material-symbols-outlined text-[28px]">
@@ -235,14 +244,11 @@ export function HeroSection() {
                         </span>
 
                         <span
-                          className={`font-label-sm text-[13px] uppercase tracking-wider px-3 py-1 rounded-full ${
-                            isCenter
-                              ? "text-action-accent font-semibold shadow-xs"
-                              : "text-action-accent font-medium"
-                          }`}
+                          className="font-label-sm text-[13px] uppercase tracking-wider px-3 py-1 rounded-full font-medium"
                           style={{
-                            backgroundColor: "rgb(252, 228, 236)",
-                            border: isCenter ? "1px solid #F472A8" : "1px solid #F3D3DF",
+                            backgroundColor: "var(--tint)",
+                            border: isCenter ? "1px solid var(--accent)" : "1px solid var(--border)",
+                            color: "var(--chip-text)",
                           }}
                         >
                           {card.badge}
@@ -251,29 +257,34 @@ export function HeroSection() {
 
                       {/* Card Title & Description */}
                       <h3
-                        className={`font-headline-sm font-semibold text-[#1C1C28] mb-3 ${
+                        className={`font-headline-sm font-semibold mb-3 ${
                           isCenter ? "text-[26px] lg:text-[28px]" : "text-[24px] lg:text-[25px]"
                         }`}
+                        style={{ color: "var(--text-primary)" }}
                       >
                         {card.title}
                       </h3>
-                      <p className="font-body-sm text-[15px] leading-relaxed text-[#55556A] mb-6">
+                      <p
+                        className="font-body-sm text-[15px] leading-relaxed mb-6"
+                        style={{ color: "var(--text-muted)" }}
+                      >
                         {card.description}
                       </p>
                     </div>
 
-                    {/* Card Tech Chips (up to 4 placeholders) */}
+                    {/* Card Tech Chips */}
                     <div
                       className="pt-4 flex flex-wrap gap-2 items-center"
-                      style={{ borderTop: "1px dashed #F3D3DF" }}
+                      style={{ borderTop: "1px dashed var(--border)" }}
                     >
                       {card.chips.map((chip, chipIdx) => (
                         <span
                           key={chipIdx}
-                          className="px-2.5 py-1 rounded-md font-label-sm text-[13px] text-[#1C1C28] font-medium"
+                          className="px-2.5 py-1 rounded-md font-label-sm text-[13px] font-medium"
                           style={{
-                            backgroundColor: "rgb(252, 228, 236)",
-                            border: "1px solid rgb(243, 211, 223)",
+                            backgroundColor: "var(--tint)",
+                            border: "1px solid var(--border)",
+                            color: "var(--chip-text)",
                           }}
                         >
                           {chip}
@@ -296,31 +307,25 @@ export function HeroSection() {
                   key={card.id}
                   className="w-[85vw] max-w-[360px] shrink-0 snap-center rounded-3xl p-6 flex flex-col justify-between"
                   style={{
-                    background: isCenter
-                      ? "rgba(255, 255, 255, 0.94)"
-                      : "rgba(255, 255, 255, 0.82)",
+                    background: "rgba(38, 20, 27, 0.72)",
                     backdropFilter: "blur(16px)",
                     WebkitBackdropFilter: "blur(16px)",
                     border: isCenter
-                      ? "1.5px solid #F472A8"
-                      : "1px solid #F3D3DF",
+                      ? "1.5px solid var(--accent)"
+                      : "1px solid var(--border)",
                     boxShadow: isCenter
-                      ? "0 20px 48px -6px rgba(224, 85, 143, 0.28)"
-                      : "0 12px 32px -8px rgba(244, 114, 168, 0.15)",
+                      ? "0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 40px rgba(240, 138, 163, 0.18)"
+                      : "0 16px 40px -8px rgba(0, 0, 0, 0.5)",
                   }}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-5">
                       <span
-                        className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
-                          isCenter
-                            ? "bg-action-accent text-white"
-                            : "bg-blush-tint text-action-accent"
-                        }`}
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
                         style={{
-                          backgroundColor: isCenter
-                            ? "rgb(224, 85, 143)"
-                            : "rgb(252, 228, 236)",
+                          backgroundColor: isCenter ? "var(--button)" : "var(--tint)",
+                          color: isCenter ? "var(--button-text)" : "var(--accent)",
+                          border: isCenter ? "none" : "1px solid var(--border)",
                         }}
                       >
                         <span className="material-symbols-outlined text-[24px]">
@@ -329,35 +334,43 @@ export function HeroSection() {
                       </span>
 
                       <span
-                        className="font-label-sm text-[12px] uppercase tracking-wider px-2.5 py-0.5 rounded-full text-action-accent font-semibold"
+                        className="font-label-sm text-[12px] uppercase tracking-wider px-2.5 py-0.5 rounded-full font-semibold"
                         style={{
-                          backgroundColor: "rgb(252, 228, 236)",
-                          border: isCenter ? "1px solid #F472A8" : "1px solid #F3D3DF",
+                          backgroundColor: "var(--tint)",
+                          border: isCenter ? "1px solid var(--accent)" : "1px solid var(--border)",
+                          color: "var(--chip-text)",
                         }}
                       >
                         {card.badge}
                       </span>
                     </div>
 
-                    <h3 className="font-headline-sm text-[23px] font-semibold text-[#1C1C28] mb-2">
+                    <h3
+                      className="font-headline-sm text-[23px] font-semibold mb-2"
+                      style={{ color: "var(--text-primary)" }}
+                    >
                       {card.title}
                     </h3>
-                    <p className="font-body-sm text-[14px] leading-relaxed text-[#55556A] mb-5">
+                    <p
+                      className="font-body-sm text-[14px] leading-relaxed mb-5"
+                      style={{ color: "var(--text-muted)" }}
+                    >
                       {card.description}
                     </p>
                   </div>
 
                   <div
                     className="pt-3 flex flex-wrap gap-2 items-center"
-                    style={{ borderTop: "1px dashed #F3D3DF" }}
+                    style={{ borderTop: "1px dashed var(--border)" }}
                   >
                     {card.chips.map((chip, chipIdx) => (
                       <span
                         key={chipIdx}
-                        className="px-2 py-0.5 rounded-md font-label-sm text-[12px] text-[#1C1C28] font-medium"
+                        className="px-2 py-0.5 rounded-md font-label-sm text-[12px] font-medium"
                         style={{
-                          backgroundColor: "rgb(252, 228, 236)",
-                          border: "1px solid rgb(243, 211, 223)",
+                          backgroundColor: "var(--tint)",
+                          border: "1px solid var(--border)",
+                          color: "var(--chip-text)",
                         }}
                       >
                         {chip}
@@ -371,22 +384,34 @@ export function HeroSection() {
 
           {/* Under the Deck: "ALSO SKILLED IN" Row of 3 Secondary Skill Pills */}
           <div className="mt-8 lg:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 z-20">
-            <span className="font-label-sm text-[13px] uppercase tracking-wider text-[#55556A] font-semibold">
+            <span
+              className="font-label-sm text-[13px] uppercase tracking-wider font-semibold"
+              style={{ color: "var(--text-muted)" }}
+            >
               {heroContent.secondarySkillsLabel}:
             </span>
             <div className="flex flex-wrap items-center justify-center gap-2.5">
               {heroContent.secondarySkills.map((skill) => (
                 <div
                   key={skill.id}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white shadow-xs"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full shadow-xs"
                   style={{
-                    border: "1px solid #F3D3DF",
+                    backgroundColor: "var(--card-glass)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
+                    border: "1px solid var(--border)",
                   }}
                 >
-                  <span className="material-symbols-outlined text-[16px] text-action-accent">
+                  <span
+                    className="material-symbols-outlined text-[16px]"
+                    style={{ color: "var(--accent)" }}
+                  >
                     {skill.icon}
                   </span>
-                  <span className="font-label-sm text-[13px] font-medium text-[#1C1C28]">
+                  <span
+                    className="font-label-sm text-[13px] font-medium"
+                    style={{ color: "var(--text-primary)" }}
+                  >
                     {skill.name}
                   </span>
                 </div>
